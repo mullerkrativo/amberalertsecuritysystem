@@ -15,4 +15,27 @@ firebase.initializeApp({
   appId: "1:859664231016:web:09699ed43d6b8551aaa9dd"
 });
 
-const messaging = firebase.messaging();
+const messaging =
+  firebase.messaging();
+
+messaging.onBackgroundMessage(
+  (payload) => {
+    console.log(
+      "Background Message",
+      payload
+    );
+
+    self.registration.showNotification(
+      payload.notification?.title ||
+        "Amber Alert",
+      {
+        body:
+          payload.notification?.body ||
+          "",
+        icon: "/favicon.svg",
+        badge: "/favicon.svg",
+        requireInteraction: true
+      }
+    );
+  }
+);
